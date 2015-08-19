@@ -1,0 +1,39 @@
+%ifndef MACROS_MAC
+    %define MACROS_MAC
+		
+		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;write msg
+		;%1 mesg
+		;%2 lenMsg		
+		%macro escrever 2
+			mov eax,4	;system call number (sys_write)
+			mov ebx,1	;file descriptor (stdout)
+			mov ecx,%1	;message to write
+			mov edx,%2	;message length
+			int 0x80	;call kernel
+		%endmacro
+		
+		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;read and store the user input
+		;%1 input
+		;%2 input length
+		%macro ler 2
+			mov eax,3	;system call number (sys_read)
+			mov ebx,2	;file descriptor
+			mov ecx,%1	;input to store
+			mov edx,%2	;input length to store
+			int 0x80	;call kernel
+		%endmacro
+		
+		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;system exit
+		%macro sair 0
+			mov eax,1	;system call number (sys_exit)
+			mov ebx,0   ;
+			int 0x80	;call kernel
+		%endmacro
+
+		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;change value [dword]
+		;%1 data to change
+		;%2 value
+		%macro chdword 2
+			mov	[%1],dword %2
+		%endmacro
+%endif
